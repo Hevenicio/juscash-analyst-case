@@ -24,14 +24,19 @@ logger = logging.getLogger("juscash-ui")
 st.set_page_config(page_title = "JusCash - UI", layout = "wide", page_icon = "⚖️")
 
 # Determinação dinâmica do Backend
-API_URL = "http://backend:8000" 
+# API_URL = "http://backend:8000" 
 
-try:
-    requests.get(f"{API_URL}/health", timeout = 1)
-    logger.info(f"Conectado ao ambiente Docker: {API_URL}")
-except:
-    API_URL = "http://localhost:8000"
-    logger.info(f"Ambiente Docker não encontrado. Usando Localhost: {API_URL}")
+# try:
+#     requests.get(f"{API_URL}/health", timeout = 1)
+#     logger.info(f"Conectado ao ambiente Docker: {API_URL}")
+# except:
+#     API_URL = "http://localhost:8000"
+#     logger.info(f"Ambiente Docker não encontrado. Usando Localhost: {API_URL}")
+
+
+API_URL = os.getenv("API_URL", "http://localhost:8000")
+logger.info(f"API URL configurada: {API_URL}")
+
 
 def send_request(data: Dict, api_key: str = None):
     """Envia requisição para a API com logging."""
